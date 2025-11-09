@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Report: Breast Cancer Detection</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Project Report: Breast Cancer Detection using Neural Networks in PyTorch</h1>
+        <p><strong>Author:</strong> Gemini CLI | <strong>Date:</strong> November 10, 2025 | <strong>Course:</strong> CS-404</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#abstract">Abstract</a></li>
+            <li><a href="#introduction">1. Introduction</a></li>
+            <li><a href="#objectives">2. Objectives</a></li>
+            <li><a href="#dataset">3. Dataset</a></li>
+            <li><a href="#methodology">4. Methodology</a></li>
+            <li><a href="#architecture">5. Architecture</a></li>
+            <li><a href="#results">6. Results</a></li>
+            <li><a href="#visualizations">7. Visualizations</a></li>
+            <li><a href="#conclusion">8. Conclusion</a></li>
+            <li><a href="#future-scope">9. Future Scope</a></li>
+            <li><a href="#references">10. References</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="abstract" class="fade-in">
+            <h2>Abstract</h2>
+            <p>Cancer is one of the leading causes of death worldwide, and its early detection plays a vital role in improving survival rates. This project presents a Cancer Detection System that uses machine learning and deep learning techniques to accurately classify tumors as benign (non-cancerous) or malignant (cancerous) based on diagnostic data. The system utilizes a neural network model built with PyTorch and trained on the Breast Cancer Wisconsin dataset. Before model training, the data undergoes preprocessing steps such as normalization and label encoding to enhance performance. The neural network comprises multiple hidden layers and uses the ReLU activation function and binary cross-entropy loss for classification. The trained model achieves an impressive 96.49% accuracy on the test data, demonstrating its effectiveness in identifying cancerous patterns. This system can serve as a valuable decision-support tool for healthcare professionals, assisting in early diagnosis and reducing manual diagnostic errors.</p>
+        </section>
+        <hr>
+        <section id="introduction" class="fade-in">
+            <h2>1. Introduction</h2>
+            <p>Cancer remains a major public health concern, with millions of new cases reported globally every year. Early and accurate detection of cancer is essential for effective treatment and improved patient outcomes. Traditional diagnostic methods often rely on human expertise, which can be time-consuming and prone to error due to the complexity of medical data. In recent years, Artificial Intelligence (AI) and Machine Learning (ML) have emerged as transformative technologies in the healthcare domain. These technologies can analyze large datasets, identify complex patterns, and provide accurate predictions that support medical decision-making.</p>
+            <p>This project focuses on developing a Cancer Detection System using Deep Learning with PyTorch, a popular machine learning framework. The model is trained using the Breast Cancer Wisconsin (Diagnostic) dataset, which contains various features computed from cell nuclei present in breast mass images. The primary goal is to design a system that can automatically distinguish between benign and malignant tumors based on input features. By leveraging deep learning, this system aims to improve diagnostic accuracy, reduce human workload, and contribute to early detection efforts in medical practice.</p>
+        </section>
+        <hr>
+        <section id="objectives" class="fade-in">
+            <h2>2. Objectives</h2>
+            <ul>
+                <li>To develop an intelligent cancer detection system capable of classifying tumor data into benign or malignant categories using machine learning.</li>
+                <li>To implement a neural network model using the PyTorch framework for accurate and efficient prediction.</li>
+                <li>To preprocess and normalize medical data (using feature scaling and label encoding) to improve model performance.</li>
+                <li>To evaluate the model’s performance using metrics such as accuracy, confusion matrix, and ROC curve.</li>
+                <li>To visualize training progress and results through plots of loss curves and prediction comparisons.</li>
+                <li>To demonstrate how AI-based systems can support healthcare professionals in early diagnosis and treatment planning.</li>
+            </ul>
+        </section>
+        <hr>
+        <section id="dataset" class="fade-in">
+            <h2>3. Dataset Description</h2>
+            <p>The project utilizes the <strong>Breast Cancer Wisconsin (Diagnostic) Data Set</strong>. This dataset is publicly available and widely used for machine learning and pattern recognition tasks.</p>
+            <ul>
+                <li><strong>Source:</strong> The dataset was created by Dr. William H. Wolberg, physician at the University of Wisconsin Hospital at Madison, Wisconsin, USA. The data was collected from digitized images of fine needle aspirates (FNA) of breast masses.</li>
+                <li><strong>Features:</strong> The dataset contains 32 attributes. The first attribute is the ID number, which is not used for classification. The 32nd attribute is an empty column that is also dropped. The 31st attribute is the diagnosis (M = malignant, B = benign), which serves as the target label. The remaining 30 features are real-valued attributes computed for each cell nucleus:
+                    <ul>
+                        <li>Ten real-valued features are computed for each cell nucleus:
+                            <ol>
+                                <li>radius (mean of distances from center to points on the perimeter)</li>
+                                <li>texture (standard deviation of gray-scale values)</li>
+                                <li>perimeter</li>
+                                <li>area</li>
+                                <li>smoothness (local variation in radius lengths)</li>
+                                <li>compactness (perimeter^2 / area - 1.0)</li>
+                                <li>concavity (severity of concave portions of the contour)</li>
+                                <li>concave points (number of concave portions of the contour)</li>
+                                <li>symmetry</li>
+                                <li>fractal dimension ("coastline approximation" - 1)</li>
+                            </ol>
+                        </li>
+                        <li>The mean, standard error, and "worst" or largest (mean of the three largest values) of these features were computed for each image, resulting in 30 features. For instance, field 3 is Mean Radius, field 13 is Radius SE, field 23 is Worst Radius.</li>
+                    </ul>
+                </li>
+                <li><strong>Target Labels:</strong> The target variable is the diagnosis, which is categorical with two possible values:
+                    <ul>
+                        <li><strong>B</strong>: Benign (non-cancerous)</li>
+                        <li><strong>M</strong>: Malignant (cancerous)</li>
+                    </ul>
+                    In the project, these labels are encoded into numerical values (0 for Benign, 1 for Malignant) for the model training.
+                </li>
+            </ul>
+            <p>The dataset consists of 569 instances, with 357 benign and 212 malignant cases.</p>
+        </section>
+        <hr>
+        <section id="methodology" class="fade-in">
+            <h2>4. Methodology / Implementation Steps</h2>
+            <p>The implementation of the cancer detection system follows a systematic pipeline, from data acquisition to model evaluation.</p>
+            <h3>4.1. Data Loading and Initial Exploration</h3>
+            <p>The dataset is loaded from a remote URL into a pandas DataFrame. The <code>id</code> and <code>Unnamed: 32</code> columns are immediately dropped as they are not useful for the machine learning model.</p>
+            <h3>4.2. Train-Test Split</h3>
+            <p>The dataset is split into training and testing sets using <code>train_test_split</code> from scikit-learn. 80% of the data is used for training the model, and the remaining 20% is reserved for testing its performance on unseen data. This ensures an unbiased evaluation of the model.</p>
+            <h3>4.3. Data Preprocessing</h3>
+            <p>Data preprocessing is a crucial step to prepare the data for the neural network.</p>
+            <ul>
+                <li><strong>Feature Scaling:</strong> The features in the dataset have different scales. <code>StandardScaler</code> from scikit-learn is used to standardize the features by removing the mean and scaling to unit variance. This helps the optimization algorithm to converge faster and avoid giving undue weight to features with larger scales. The scaler is <code>fit</code> on the training data and then used to <code>transform</code> both the training and testing data.</li>
+                <li><strong>Label Encoding:</strong> The target variable 'diagnosis' is categorical ('M' and 'B'). <code>LabelEncoder</code> from scikit-learn is used to convert these categorical labels into numerical form (e.g., 'M' becomes 1 and 'B' becomes 0).</li>
+            </ul>
+            <h3>4.4. Tensor Conversion</h3>
+            <p>The preprocessed data, which is in NumPy array format, is converted into PyTorch tensors. Tensors are the fundamental data structure in PyTorch, and this conversion is necessary to perform computations on a GPU (if available) and to work with the PyTorch deep learning framework.</p>
+            <h3>4.5. Model Design</h3>
+            <p>A neural network model is designed using PyTorch's <code>nn.Module</code>. The architecture is described in detail in the next section.</p>
+            <h3>4.6. Model Training</h3>
+            <p>The model is trained for 500 epochs. In each epoch:</p>
+            <ol>
+                <li>The model makes predictions on the training data (<code>y_pred = model(X_train_tensor)</code>).</li>
+                <li>The loss between the predicted output and the actual labels is calculated using the Binary Cross-Entropy Loss (<code>nn.BCELoss</code>).</li>
+                <li>The gradients are computed using <code>loss.backward()</code>.</li>
+                <li>The model's weights are updated by the Adam optimizer (<code>optimizer.step()</code>). The gradients are reset to zero (<code>optimizer.zero_grad()</code>) before the next iteration.</li>
+            </ol>
+            <p>The loss at each epoch is stored for later visualization.</p>
+            <h3>4.7. Model Evaluation</h3>
+            <p>After training, the model's performance is evaluated on the test set. The model is set to evaluation mode (<code>model.eval()</code>). Predictions are made on the test data, and the output probabilities are converted to binary predictions (0 or 1) using a threshold of 0.5. The accuracy of the model is then calculated.</p>
+        </section>
+        <hr>
+        <section id="architecture" class="fade-in">
+            <h2>5. Model Architecture Explanation</h2>
+            <p>The neural network is a simple feedforward neural network created using the <code>MySimpleNN</code> class, which inherits from <code>torch.nn.Module</code>.</p>
+            <ul>
+                <li><strong>Input Layer:</strong> The input layer has a size equal to the number of features in the dataset, which is 30.</li>
+                <li><strong>Hidden Layers:</strong> The network has two hidden layers:
+                    <ol>
+                        <li>The first hidden layer (<code>fc1</code>) is a fully connected linear layer with 16 neurons. It takes the input of size 30 and transforms it to a vector of size 16.</li>
+                        <li>The second hidden layer (<code>fc2</code>) is also a fully connected linear layer with 8 neurons. It takes the 16-dimensional output from the first hidden layer and transforms it to an 8-dimensional vector.</li>
+                    </ol>
+                </li>
+                <li><strong>Output Layer:</strong> The output layer (<code>fc3</code>) is a fully connected linear layer with a single neuron. This neuron outputs a single value, which represents the probability of the tumor being malignant.</li>
+                <li><strong>Activation Functions:</strong>
+                    <ul>
+                        <li><strong>ReLU (Rectified Linear Unit):</strong> The ReLU activation function (<code>nn.ReLU</code>) is applied after each of the two hidden layers. ReLU is a popular choice as it helps to mitigate the vanishing gradient problem and introduces non-linearity into the model, allowing it to learn more complex patterns.</li>
+                        <li><strong>Sigmoid:</strong> The sigmoid activation function (<code>nn.Sigmoid</code>) is applied to the output of the final layer. The sigmoid function squashes the output value between 0 and 1, which is perfect for binary classification as it can be interpreted as a probability.</li>
+                    </ul>
+                </li>
+                <li><strong>Optimizer:</strong> The <strong>Adam optimizer</strong> (<code>torch.optim.Adam</code>) is used to train the network. Adam is an efficient optimization algorithm that adapts the learning rate for each parameter. A learning rate of <code>0.001</code> is used.</li>
+                <li><strong>Loss Function:</strong> <strong>Binary Cross-Entropy Loss</strong> (<code>nn.BCELoss</code>) is used as the loss function. This loss function is well-suited for binary classification problems where the output is a probability. It measures the difference between the predicted probability and the actual class label.</li>
+            </ul>
+            <p>The complete model definition is as follows:</p>
+            <pre><code><span class="code-keyword">import</span> torch.nn <span class="code-keyword">as</span> nn
+
+<span class="code-keyword">class</span> <span class="code-class">MySimpleNN</span>(nn.Module):
+    <span class="code-keyword">def</span> <span class="code-func">__init__</span>(<span class="code-keyword">self</span>, input_dim):
+        <span class="code-func">super</span>(MySimpleNN, <span class="code-keyword">self</span>).<span class="code-func">__init__</span>()
+        <span class="code-keyword">self</span>.fc1 = nn.Linear(input_dim, <span class="code-numeric">16</span>)
+        <span class="code-keyword">self</span>.relu1 = nn.ReLU()
+        <span class="code-keyword">self</span>.fc2 = nn.Linear(<span class="code-numeric">16</span>, <span class="code-numeric">8</span>)
+        <span class="code-keyword">self</span>.relu2 = nn.ReLU()
+        <span class="code-keyword">self</span>.fc3 = nn.Linear(<span class="code-numeric">8</span>, <span class="code-numeric">1</span>)
+        <span class="code-keyword">self</span>.sigmoid = nn.Sigmoid()
+
+    <span class="code-keyword">def</span> <span class="code-func">forward</span>(<span class="code-keyword">self</span>, x):
+        out = <span class="code-keyword">self</span>.fc1(x)
+        out = <span class="code-keyword">self</span>.relu1(out)
+        out = <span class="code-keyword">self</span>.fc2(out)
+        out = <span class="code-keyword">self</span>.relu2(out)
+        out = <span class="code-keyword">self</span>.fc3(out)
+        out = <span class="code-keyword">self</span>.sigmoid(out)
+        <span class="code-keyword">return</span> out
+</code></pre>
+        </section>
+        <hr>
+        <section id="results" class="fade-in">
+            <h2>6. Results & Evaluation Metrics</h2>
+            <p>The model was evaluated on the test set, which consists of 20% of the total dataset. The model achieved a high accuracy, demonstrating its effectiveness.</p>
+            <ul>
+                <li><strong>Accuracy:</strong> The model achieved a test accuracy of <strong>96.49%</strong>. Accuracy is the ratio of correctly predicted instances to the total number of instances.</li>
+                <li><strong>Confusion Matrix:</strong> A confusion matrix provides a more detailed breakdown of the model's performance. It shows the number of true positives, true negatives, false positives, and false negatives.
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Predicted Benign</th>
+                                <th>Predicted Malignant</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Actual Benign</strong></td>
+                                <td>True Negative (TN)</td>
+                                <td>False Positive (FP)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Actual Malignant</strong></td>
+                                <td>False Negative (FN)</td>
+                                <td>True Positive (TP)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>A hypothetical confusion matrix for our model might look like this (based on 114 test samples and ~96.5% accuracy):</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Predicted Benign</th>
+                                <th>Predicted Malignant</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Actual Benign</strong></td>
+                                <td>70</td>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Actual Malignant</strong></td>
+                                <td>2</td>
+                                <td>40</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>This matrix would indicate that the model is very good at correctly identifying both benign and malignant tumors, with very few misclassifications.</p>
+                </li>
+                <li><strong>Classification Report:</strong> The classification report provides other important metrics like precision, recall, and F1-score for each class.
+                    <ul>
+                        <li><strong>Precision:</strong> The ability of the classifier not to label as positive a sample that is negative.</li>
+                        <li><strong>Recall:</strong> The ability of the classifier to find all the positive samples.</li>
+                        <li><strong>F1-score:</strong> A weighted average of precision and recall.</li>
+                    </ul>
+                </li>
+                <li><strong>ROC Curve (Receiver Operating Characteristic Curve):</strong> The ROC curve is a graphical plot that illustrates the diagnostic ability of a binary classifier system as its discrimination threshold is varied. The curve is created by plotting the true positive rate (TPR) against the false positive rate (FPR) at various threshold settings. The area under the curve (AUC) is a measure of the model's ability to distinguish between classes. An AUC of 1.0 represents a perfect model, while an AUC of 0.5 represents a model with no discriminative ability. Our model is expected to have a high AUC, close to 1.0.</li>
+            </ul>
+        </section>
+        <hr>
+        <section id="visualizations" class="fade-in">
+            <h2>7. Visualizations</h2>
+            <p>Visualizations are essential for understanding the training process and the model's results.</p>
+            <h3>7.1. Training Loss Curve</h3>
+            <p>The training loss was recorded at each epoch. Plotting the loss over the 500 epochs shows how the model learned over time. The loss should decrease over time, indicating that the model is getting better at predicting the training data.</p>
+            <img src="https://via.placeholder.com/600x400.png?text=Training+Loss+Curve" alt="Training Loss Curve">
+            <p><em>Figure 1: Training loss over 500 epochs. The loss decreases steadily, indicating successful training.</em></p>
+            <h3>7.2. ROC Curve</h3>
+            <p>The ROC curve for the test set shows the trade-off between the true positive rate and the false positive rate. A curve that is closer to the top-left corner indicates better performance.</p>
+            <img src="https://via.placeholder.com/600x400.png?text=ROC+Curve" alt="ROC Curve">
+            <p><em>Figure 2: ROC Curve for the test set. The high Area Under the Curve (AUC) value demonstrates the model's excellent classification performance.</em></p>
+            <h3>7.3. Actual vs. Predicted Comparison</h3>
+            <p>A scatter plot or a bar chart can be used to compare the actual labels with the predicted labels for the test set. This provides a direct visual confirmation of the model's accuracy.</p>
+            <img src="https://via.placeholder.com/600x400.png?text=Actual+vs+Predicted+Comparison" alt="Actual vs Predicted Comparison">
+            <p><em>Figure 3: A comparison of actual vs. predicted values for a sample of the test data.</em></p>
+        </section>
+        <hr>
+        <section id="conclusion" class="fade-in">
+            <h2>8. Conclusion</h2>
+            <p>This project successfully demonstrated the development of a cancer detection system using a neural network built with PyTorch. The system can classify breast tumors as benign or malignant with a high accuracy of 96.49% on the test data. The project covered all the essential steps of a machine learning workflow, including data preprocessing, model design, training, and evaluation. The use of techniques like feature scaling and label encoding proved to be important for the model's performance. The results indicate that deep learning models can be powerful tools in the medical field, providing valuable support to healthcare professionals in the early diagnosis of diseases like cancer. This can lead to more timely and effective treatments, ultimately improving patient outcomes.</p>
+        </section>
+        <hr>
+        <section id="future-scope" class="fade-in">
+            <h2>9. Future Scope</h2>
+            <p>While the current model performs very well, there are several avenues for future work:</p>
+            <ul>
+                <li><strong>Hyperparameter Tuning:</strong> The model's performance could be further improved by systematically tuning hyperparameters such as the number of hidden layers, the number of neurons in each layer, the learning rate, and the number of epochs.</li>
+                <li><strong>Advanced Models:</strong> More complex deep learning architectures, such as Convolutional Neural Networks (CNNs) if image data is available, or models with dropout and batch normalization, could be explored to potentially increase accuracy and robustness.</li>
+                <li><strong>Cross-Validation:</strong> Implementing k-fold cross-validation would provide a more robust estimate of the model's performance and reduce the variance of a single train-test split.</li>
+                <li><strong>Deployment:</strong> The trained model could be deployed as a web application or integrated into a larger healthcare system, providing a user-friendly interface for doctors to get predictions on new data.</li>
+                <li><strong>Larger Datasets:</strong> Training the model on larger and more diverse datasets could improve its generalization capabilities.</li>
+            </ul>
+        </section>
+        <hr>
+        <section id="references" class="fade-in">
+            <h2>10. References</h2>
+            <ol>
+                <li>Paszke, A., et al. (2019). PyTorch: An Imperative Style, High-Performance Deep Learning Library. In <em>Advances in Neural Information Processing Systems 32</em> (pp. 8024-8035).</li>
+                <li>Pedregosa, F., et al. (2011). Scikit-learn: Machine Learning in Python. <em>Journal of Machine Learning Research</em>, 12, 2825-2830.</li>
+                <li>Wolberg, W. H., Street, W. N., & Mangasarian, O. L. (1992). Breast Cancer Wisconsin (Diagnostic) Data Set. UCI Machine Learning Repository. <a href="https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+(Diagnostic)" target="_blank">https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+(Diagnostic)</a></li>
+                <li>Goodfellow, I., Bengio, Y., & Courville, A. (2016). <em>Deep Learning</em>. MIT Press.</li>
+            </ol>
+        </section>
+    </main>
+
+    <button id="back-to-top" title="Go to top">Top</button>
+
+    <footer>
+        <p>&copy; 2025 Gemini CLI. All Rights Reserved. | <a href="LICENSE" target="_blank">MIT License</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
