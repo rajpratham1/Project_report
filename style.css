@@ -199,14 +199,15 @@ header {
     padding: 1.5em 2em;
     text-align: center;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column; /* Arrange items in a column */
+    align-items: center; /* Center items horizontally */
     position: sticky;
     top: 0;
     z-index: 1000;
     width: 100%;
     box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-    transition: padding 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    /* UPDATED TRANSITION FOR AUTOHIDE */
+    transition: padding 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease, top 0.4s ease-in-out;
 }
 
 .header-scrolled {
@@ -215,8 +216,13 @@ header {
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
+/* NEW CLASS FOR AUTOHIDE */
+header.header-hidden {
+    top: -200px; /* Hides header by moving it up */
+}
+
 header h1 {
-    margin: 0;
+    margin: 0 0 1em 0; /* Add bottom margin to separate from controls */
     font-size: 1.8em;
     color: var(--light-text-color);
     border-bottom: none;
@@ -228,7 +234,7 @@ header h1 {
     font-size: 2em;
     color: var(--light-text-color);
     cursor: pointer;
-    position: absolute;
+    position: absolute; /* Keep absolute for left positioning */
     left: 20px;
     transition: transform 0.3s ease, color 0.3s ease;
     z-index: 2100; /* On top of nav */
@@ -244,9 +250,18 @@ body.sidebar-open .menu-icon {
 }
 
 /* --- THEME SWITCHER --- */
+.header-controls {
+    display: flex; /* Keep flex for internal items */
+    align-items: center;
+    gap: 15px; /* Space between theme switcher and PDF button */
+    z-index: 2100; /* Ensure it's on top of other elements */
+    position: relative; /* Make it relative to flow within the column */
+    right: auto; /* Remove absolute right positioning */
+    top: auto; /* Remove absolute top positioning */
+    transform: none; /* Remove transform */
+}
+
 .theme-switcher {
-    position: absolute;
-    right: 20px;
     display: flex;
     gap: 8px;
 }
@@ -273,6 +288,22 @@ body.sidebar-open .menu-icon {
 #theme-light { background-color: #f4f6f9; }
 #theme-blue { background-color: #3498db; }
 #theme-dark { background-color: #2c3e50; }
+
+#download-pdf {
+    background: none;
+    border: none;
+    color: var(--light-text-color);
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s ease, color 0.3s ease;
+}
+
+#download-pdf:hover {
+    transform: scale(1.1);
+    color: var(--accent-color);
+}
 
 
 /* --- NAVIGATION (SIDEBAR) --- */
@@ -340,7 +371,7 @@ body.sidebar-open nav ul li:nth-child(8) { transition-delay: 0.45s; }
 body.sidebar-open nav ul li:nth-child(9) { transition-delay: 0.5s; }
 body.sidebar-open nav ul li:nth-child(10) { transition-delay: 0.55s; }
 body.sidebar-open nav ul li:nth-child(11) { transition-delay: 0.6s; }
-body.sidebar-open nav ul li:nth-child(12) { transition-delay: 0.65s; } /* Added for new link */
+body.sidebar-open nav ul li:nth-child(12) { transition-delay: 0.65s; }
 
 
 nav ul li a {
@@ -546,6 +577,20 @@ footer {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* UPDATED FOOTER LINKS STYLE */
+footer .footer-links {
+    margin-bottom: 1em;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5em;
+}
+
+footer .footer-links a {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
 footer a {
     color: var(--accent-color);
     transition: color 0.3s ease;
@@ -589,22 +634,7 @@ footer a {
 
 /* --- RESPONSIVENESS --- */
 
-/* --- THEME TOGGLE BUG FIXED --- */
-/* The problematic @media (max-width: 900px) rule was removed. */
-
 @media (max-width: 768px) {
-    header h1 {
-        font-size: 1.5em;
-    }
-    
-    .theme-switcher {
-        position: relative;
-        right: auto;
-        margin-left: auto;
-        padding-right: 15px; /* Give it space from the edge */
-        display: flex;
-    }
-
     main {
         padding: 1em;
     }
@@ -631,5 +661,103 @@ footer a {
     body.sidebar-open .content-wrapper::before {
         opacity: 0;
         visibility: hidden;
+    }
+}
+
+
+/* --- PRINT STYLES --- */
+@media print {
+    /* Hide non-essential elements */
+    nav, header, footer, #back-to-top, .menu-icon, .header-controls {
+        display: none !important;
+    }
+
+    body {
+        font-size: 12pt;
+        color: #000;
+        background-color: #fff;
+        -webkit-print-color-adjust: exact; /* For background colors */
+        print-color-adjust: exact;
+    }
+
+    .content-wrapper {
+        margin-left: 0 !important;
+        width: 100% !important;
+        flex-direction: column;
+    }
+
+    main {
+        padding: 1cm;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    section {
+        box-shadow: none;
+        border: 1px solid #ccc;
+        margin-bottom: 1.5em;
+        padding: 1.5em;
+        page-break-inside: avoid;
+        border-left: none; /* Remove hover effect border */
+        transform: none; /* Remove hover effect transform */
+    }
+
+    section:hover {
+        transform: none;
+        box-shadow: none;
+        border-left-color: transparent;
+    }
+
+    h1, h2, h3, h4 {
+        color: #000 !important;
+        border-bottom-color: #000 !important;
+        page-break-after: avoid;
+    }
+
+    p, ul, ol, table, pre, img {
+        page-break-inside: avoid;
+    }
+
+    a {
+        color: #000;
+        text-decoration: underline;
+    }
+
+    a::after {
+        display: none;
+    }
+
+    .highlight {
+        background-color: #eee;
+        color: #000;
+        font-weight: bold;
+    }
+
+    .highlight-benign {
+        background-color: #d4edda; /* Light green */
+        color: #155724;
+    }
+
+    .highlight-malignant {
+        background-color: #f8d7da; /* Light red */
+        color: #721c24;
+    }
+
+    pre {
+        background-color: #f5f5f5;
+        color: #000;
+        border: 1px solid #ccc;
+    }
+
+    img {
+        max-width: 100% !important;
+        border: 1px solid #ccc;
+        box-shadow: none;
+        transform: none;
+    }
+
+    img:hover {
+        transform: none;
+        box-shadow: none;
     }
 }
