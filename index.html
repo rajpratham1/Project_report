@@ -26,193 +26,171 @@
             <li><a href="#visualizations">7. Visualizations</a></li>
             <li><a href="#conclusion">8. Conclusion</a></li>
             <li><a href="#future-scope">9. Future Scope</a></li>
-            <li><a href="#references">10. References</a></li>
-            <li><a href="#team">11. Our Team</a></li>
+            <li><a href="#team">10. Our Team</a></li>
+            <li><a href="#references">11. References</a></li>
         </ul>
     </nav>
     <div class="content-wrapper">
         <header>
             <div class="menu-icon">&#8942;</div>
             <h1>Project Report: Breast Cancer Detection</h1>
-            <div class="theme-switcher">
-                <button id="theme-light" class="theme-btn" data-theme="light" title="Light Mode"></button>
-                <button id="theme-blue" class="theme-btn" data-theme="blue" title="Blue Mode"></button>
-                <button id="theme-dark" class="theme-btn" data-theme="dark" title="Dark Mode"></button>
+            <div class="header-controls">
+                <div class="theme-switcher">
+                    <button id="theme-light" class="theme-btn" data-theme="light" title="Light Mode"></button>
+                    <button id="theme-blue" class="theme-btn" data-theme="blue" title="Blue Mode"></button>
+                    <button id="theme-dark" class="theme-btn" data-theme="dark" title="Dark Mode"></button>
+                </div>
+                <button id="download-pdf" title="Download as PDF">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                </button>
             </div>
         </header>
         <main>
         <section id="abstract" class="fade-in-up is-visible">
             <h2>Abstract</h2>
-            <p>Cancer touches nearly everyone's life in some way. We believe that technology, especially artificial intelligence, holds real promise in the fight against it. This report explains how we built our <strong>Cancer Detection System</strong>, a project we created to make a real-world impact. At its heart, our system uses a custom-built neural network to analyze medical data and tell the difference between benign (harmless) and malignant (cancerous) breast tumors. By training our model on the respected Breast Cancer Wisconsin dataset, we achieved an outstanding accuracy of <span class="highlight">99.12%</span>. This project is more than just code; it's our demonstration of how we can build smart tools to support medical professionals, aiming for earlier detection and, ultimately, better outcomes for patients.</p>
+            <p>This project presents an advanced machine learning system for automated breast cancer detection using the Wisconsin Breast Cancer Dataset. Leveraging a <span class="highlight">Random Forest classifier</span>, the system achieves high diagnostic accuracy. Key features include data preprocessing with <span class="highlight">SMOTE</span> for class imbalance and a user-friendly web interface built with <span class="highlight">Flask</span>, designed to assist healthcare professionals in making faster, more informed decisions. The system demonstrates the effectiveness of machine learning in enhancing medical diagnostics.</p>
         </section>
         <hr>
         <section id="introduction" class="fade-in-up is-visible">
             <h2>1. Introduction</h2>
-            <p>The journey of a cancer diagnosis often starts with one terrifying question: "Is it cancer?" Getting to the answer is complex. It relies on the trained eyes of pathologists who spend hours examining tissue samples under a microscope. Their work is vital, but it's also demanding and, like any human task, has its limits. We asked ourselves: what if we could give these experts a powerful new kind of "magnifying glass"—one that uses AI to spot patterns the human eye might miss?</p>
-            <p>That question was the spark for this project. We didn't just want to build another piece of software; we wanted to see how we, as students, could contribute to solving a deeply human problem. We chose PyTorch, a flexible and powerful deep learning tool, to build our own neural network from scratch. Our goal was to teach this digital "brain" to read the subtle clues in the medical data from the Breast Cancer Wisconsin dataset. This report tells the story of that journey: from raw data to a working, intelligent system that gives a glimpse into the future of medical diagnostics, where technology and human expertise can work hand-in-hand.</p>
+            <p>Breast cancer is one of the most common and life-threatening cancers affecting women globally. Early and accurate detection is paramount to improving survival rates and treatment outcomes. Traditional diagnostic methods, while effective, can be time-consuming and subject to human variability.</p>
+            <p>This project aims to address this challenge by developing an intelligent, machine-learning-based system to assist healthcare professionals. By providing an <span class="highlight">AI-powered diagnostic tool</span>, we seek to enhance the accuracy and efficiency of breast cancer detection, offering a reliable second opinion and streamlining the diagnostic workflow.</p>
         </section>
         <hr>
         <section id="objectives" class="fade-in-up">
             <h2>2. Objectives</h2>
-            <p>To guide our work, we set out with a clear list of goals:</p>
+            <p>The primary goals for this project were clearly defined:</p>
             <ul>
-                <li><strong>Build an Intelligent System:</strong> Develop a smart system that can learn from data to classify tumors as benign or malignant.</li>
-                <li><strong>Use Modern Tools:</strong> Build the core of this system using a PyTorch neural network, a leading deep learning framework.</li>
-                <li><strong>Prepare the Data:</strong> Apply essential preprocessing techniques like feature scaling (<code>StandardScaler</code>) and label encoding (<code>LabelEncoder</code>). This ensures our data is in the best possible shape for the model to learn from.</li>
-                <li><strong>Measure Success:</strong> Rigorously check the model's performance with key metrics like accuracy, a confusion matrix, and the ROC curve.</li>
-                <li><strong>Tell the Story with Visuals:</strong> Create charts and plots to clearly show the model's learning process and its final results.</li>
-                <li><strong>Show the Potential:</strong> Demonstrate how AI-powered tools can be a valuable assistant for doctors, helping with early diagnosis and improving patient care.</li>
+                <li><strong>Develop a highly accurate machine learning model</strong> for the binary classification of breast tumors (benign vs. malignant).</li>
+                <li><strong>Create an intuitive web interface</strong> using Flask that allows users to get predictions for single or batch data entries.</li>
+                <li><strong>Implement robust data preprocessing,</strong> including feature scaling and handling class imbalance using SMOTE.</li>
+                <li><strong>Implement batch processing capabilities</strong> to allow for the prediction of multiple samples from an uploaded file.</li>
+                <li><strong>Ensure the system is well-structured</strong> and can serve as a practical tool for educational or assistive diagnostic purposes.</li>
             </ul>
         </section>
         <hr>
         <section id="dataset" class="fade-in-up">
             <h2>3. Dataset Description</h2>
-            <p>The foundation of any AI project is the data. For this task, we used the <strong>Breast Cancer Wisconsin (Diagnostic) Data Set</strong>, a classic and trusted resource in the medical machine learning community.</p>
+            <p>The model was trained and tested using the well-known <strong>Wisconsin Breast Cancer Dataset</strong>, a reliable benchmark for classification tasks.</p>
             <ul>
-                <li><strong>Source:</strong> The data comes from Dr. William H. Wolberg at the University of Wisconsin Hospital. It was created from digitized images of fine needle aspirates (FNAs), which are tiny samples of breast tissue.</li>
-                <li><strong>Data Shape:</strong> The original dataset has 569 samples (rows) and 33 columns. We dropped the 'id' and 'Unnamed: 32' columns, leaving us with 30 descriptive features and 1 target column ('diagnosis').</li>
-                <li><strong>Features:</strong> The 30 features are numerical measurements that describe the characteristics of cell nuclei found in the samples. These include:
+                <li><strong>Source:</strong> UCI Machine Learning Repository</li>
+                <li><strong>Total Samples:</strong> 569 cases</li>
+                <li><strong>Features:</strong> 30 numerical measurements (e.g., radius, texture, smoothness) computed from a digitized image of a fine needle aspirate (FNA) of a breast mass.</li>
+                <li><strong>Classes:</strong> 2 (Binary)
                     <ul>
-                        <li><strong>Radius:</strong> The average size of the cell nuclei.</li>
-                        <li><strong>Texture:</strong> The variation in the gray-scale colors of the nuclei.</li>
-                        <li><strong>Smoothness:</strong> A measure of how smooth the nucleus's outline is.</li>
-                        <li><strong>Compactness:</strong> A measure of the nucleus's shape.</li>
+                        <li><span class="highlight-malignant">Malignant</span> (Cancerous)</li>
+                        <li><span class="highlight-benign">Benign</span> (Not Cancerous)</li>
                     </ul>
-                </li>
-                <li><strong>Target Labels:</strong> Our goal is to predict the 'diagnosis'. This comes in two categories:
-                    <ul>
-                        <li><span class="highlight-benign">B</span>: Benign (a harmless tumor)</li>
-                        <li><span class="highlight-malignant">M</span>: Malignant (a cancerous tumor)</li>
-                    </ul>
-                    Our <code>LabelEncoder</code> converts these letters into numbers: <strong>0 for Benign</strong> and <strong>1 for Malignant</strong>.
                 </li>
             </ul>
-            <p>The dataset provides 569 examples to learn from, consisting of 357 benign cases and 212 malignant cases.</p>
         </section>
         <hr>
         <section id="methodology" class="fade-in-up">
-            <h2>4. Methodology / Implementation Steps</h2>
-            <p>Think of our data as a jumbled box of clues. Before our detective (the neural network) can solve the case, we need to organize and clean up those clues. That's what our methodology is—a step-by-step plan for building our model.</p>
-            <h3>4.1. Data Loading and Splitting</h3>
-            <p>First, we load the data and drop the unnecessary columns. We then immediately split it into two parts: a <strong>training set (80%)</strong> and a <strong>testing set (20%)</strong> using <code>train_test_split</code>. The model learns all its patterns from the 455 samples in the training set. The 114 samples in the testing set are kept separate for the final "exam".</p>
-            <h3>4.2. Data Preprocessing</h3>
-            <p>This is a critical step. Raw data is often messy and not suitable for a neural network.</p>
+            <h2>4. Methodology</h2>
+            <p>The process of building the model involved several key stages, from preparing the data to selecting and training the final classifier.</p>
+            <h3>4.1. Data Preprocessing</h3>
+            <p>Raw data is rarely ready for training. Our preprocessing pipeline included two critical steps:</p>
             <ul>
-                <li><strong>Feature Scaling:</strong> The 30 features come in different units and ranges. We use <code>StandardScaler</code> to re-scale all features, giving them a similar range of importance so the model doesn't favor one feature over another just because its numbers are bigger.</li>
-                <li><strong>Label Encoding:</strong> As mentioned, our model works with numbers. We use <code>LabelEncoder</code> to convert the 'M' (Malignant) and 'B' (Benign) labels into 1s and 0s.</li>
+                <li><strong>Feature Scaling:</strong> We applied <code>StandardScaler</code> from scikit-learn to normalize the 30 numerical features. This ensures all features contribute equally to the model's decisions, preventing features with larger scales from dominating.</li>
+                <li><strong>Handling Class Imbalance:</strong> The dataset is imbalanced. To prevent the model from being biased towards the majority class, we used the <strong>SMOTE</strong> (Synthetic Minority Over-sampling Technique) to generate synthetic samples for the minority (malignant) class, creating a balanced training set.</li>
             </ul>
-            <h3>4.3. Tensor Conversion</h3>
-            <p>PyTorch, our deep learning library, uses its own special data format called a <strong>tensor</strong>. We convert our cleaned-up NumPy arrays into PyTorch Tensors, getting them ready for training (and moving them to the GPU if one is available).</p>
-            <h3>4.4. Training the Model</h3>
-            <p>This is where the learning happens. We train the model for 500 cycles, or <strong>epochs</strong>. In each cycle:</p>
-            <ol>
-                <li><strong>Forward Pass:</strong> The model takes the training data and makes a prediction for each sample.</li>
-                <li><strong>Calculate Loss:</strong> We compare the model's predictions to the actual answers using a <strong>loss function</strong> (<code>BCELoss</code>, or Binary Cross-Entropy). The "loss" is just a number that tells us how wrong the model was.</li>
-                <li><strong>Backward Pass:</strong> We use backpropagation to calculate how much each connection in the model's "brain" contributed to the error.</li>
-                <li><strong>Update Weights:</strong> The <strong>Adam optimizer</strong> (with a learning rate of 0.001) then makes tiny adjustments to all those connections to reduce the error in the next cycle.</li>
-            </ol>
-            <p>Over 500 epochs, the model gets progressively better, and the loss value drops, which we track to make sure it's learning correctly.</p>
+            <h3>4.2. Model Selection</h3>
+            <p>After experimenting with several classifiers, the <strong>RandomForestClassifier</strong> was chosen for its high performance, robustness against overfitting, and ability to handle complex, non-linear relationships. The model was configured with 100 trees (<code>n_estimators=100</code>) and the Gini impurity criterion.</p>
+            <h3>4.3. Training Process</h3>
+            <p>The dataset was split into training (80%) and testing (20%) sets. We employed <code>GridSearchCV</code> for hyperparameter tuning to find the optimal settings for the Random Forest model. The model was then trained on the preprocessed and oversampled training data and evaluated on the unseen test set.</p>
         </section>
         <hr>
         <section id="architecture" class="fade-in-up">
-            <h2>5. Model Architecture</h2>
-            <p>The "brain" of our system is a neural network. We designed a simple yet effective architecture using PyTorch's <code>nn.Module</code>. Here's a breakdown of its structure, layer by layer.</p>
+            <h2>5. System Architecture</h2>
+            <p>The web application is built on a simple and effective three-tier architecture to separate concerns and ensure maintainability.</p>
             <ul>
-                <li><strong>Input Layer:</strong> Accepts the 30 features from our dataset.</li>
-                <li><strong>Hidden Layer 1:</strong> A fully connected layer (<code>nn.Linear</code>) with <strong>16 neurons</strong>, followed by a <strong>ReLU</strong> activation function.</li>
-                <li><strong>Hidden Layer 2:</strong> Another fully connected layer with <strong>8 neurons</strong>, also followed by a <strong>ReLU</strong> activation.</li>
-                <li><strong>Output Layer:</strong> A final layer with just <strong>1 neuron</strong>.</li>
-                <li><strong>Sigmoid Activation:</strong> We apply a <strong>Sigmoid</strong> function to the output. This squashes the number into a range between 0 and 1, which we can read as the probability that the tumor is malignant.</li>
+                <li><strong>Presentation Layer (Front-End):</strong> This is the user interface built with <strong>HTML5</strong>, <strong>CSS3</strong> (<code>style.css</code>), and <strong>JavaScript</strong> (<code>script.js</code>). It provides the interactive forms for single and batch predictions, theme toggling, and displays the results from the backend.</li>
+                <li><strong>Application Layer (Back-End):</strong> A <strong>Flask</strong>-based server (<code>app.py</code>) acts as the system's brain. It handles incoming web requests, processes data, and exposes REST API endpoints:
+                    <ul>
+                        <li><code>/predict</code>: For single predictions from the web form.</li>
+                        <li><code>/predict_batch</code>: For handling batch file uploads.</li>
+                    </ul>
+                </li>
+                <li><strong>Data Layer (Model):</strong> This layer consists of the pre-trained machine learning model (<code>arya_best_cancer.joblib</code>), which is a saved instance of our trained RandomForestClassifier. Data processing libraries like <strong>Pandas</strong> and <strong>NumPy</strong> are used here to format incoming data before feeding it to the model.</li>
             </ul>
-            <p>The data flows through this network in one direction (a <strong>forward pass</strong>) to get a prediction. It moves from the input layer, through the hidden layers, and finally to the output layer.</p>
-            <pre><code><span class="code-comment"># The blueprint for our neural network in PyTorch</span>
-<span class="code-keyword">class</span> <span class="code-class">MySimpleNN</span>(nn.Module):
-    <span class="code-keyword">def</span> <span class="code-func">__init__</span>(<span class="code-keyword">self</span>, input_dim):
-        <span class="code-func">super</span>(MySimpleNN, <span class="code-keyword">self</span>).<span class="code-func">__init__</span>()
-        <span class="code-comment"># Define the layers</span>
-        <span class="code-keyword">self</span>.fc1 = nn.Linear(input_dim, <span class="code-numeric">16</span>)
-        <span class="code-keyword">self</span>.fc2 = nn.Linear(<span class="code-numeric">16</span>, <span class="code-numeric">8</span>)
-        <span class="code-keyword">self</span>.fc3 = nn.Linear(<span class="code-numeric">8</span>, <span class="code-numeric">1</span>)
-        <span class="code-keyword">self</span>.sigmoid = nn.Sigmoid()
-
-    <span class="code-comment"># Define how data flows through the network</span>
-    <span class="code-keyword">def</span> <span class="code-func">forward</span>(<span class="code-keyword">self</span>, x):
-        x = torch.relu(<span class="code-keyword">self</span>.fc1(x))
-        x = torch.relu(<span class="code-keyword">self</span>.fc2(x))
-        x = <span class="code-keyword">self</span>.sigmoid(<span class="code-keyword">self</span>.fc3(x))
-        <span class="code-keyword">return</span> x
+            <pre><code><span class="code-comment"># Example: Flask endpoint for single prediction in app.py</span>
+<span class="code-keyword">@app.route</span>(<span class="code-class">'/predict'</span>, methods=[<span class="code-class">'POST'</span>])
+<span class="code-keyword">def</span> <span class="code-func">predict</span>():
+    <span class="code-comment"># ... code to get form data ...</span>
+    features = [float(x) <span class="code-keyword">for</span> x <span class="code-keyword">in</span> request.form.values()]
+    final_features = [np.array(features)]
+    scaled_features = scaler.transform(final_features)
+    prediction = model.predict(scaled_features)
+    <span class="code-comment"># ... code to return prediction ...</span>
 </code></pre>
         </section>
         <hr>
         <section id="results" class="fade-in-up">
             <h2>6. Results & Evaluation</h2>
-            <p>After training, it was time for the final exam: evaluating the model on the 114 unseen test samples. The results were excellent.</p>
-            <ul>
-                <li><strong>Accuracy:</strong> The headline number is an accuracy of <span class="highlight">99.12%</span>. This means our model correctly classified 113 out of the 114 test samples.</li>
-                <li><strong>Confusion Matrix:</strong> This matrix gives us a detailed look at the model's performance. In our case, it showed 0 False Negatives (the most dangerous error, where a cancer is missed) and only 1 False Positive (where a benign tumor was incorrectly flagged as malignant).</li>
-                <li><strong>Classification Report (Precision, Recall, F1-Score):</strong>
-                    <ul>
-                        <li><strong>Recall:</strong> A high recall score for the malignant class (which we achieved) means our model is excellent at "catching" all of the actual cancerous cases.</li>
-                        <li><strong>Precision:</strong> A high precision score (which we also achieved) means that when the model *does* predict a tumor is malignant, it is very likely to be correct.</li>
-                    </ul>
-                </li>
-                <li><strong>ROC Curve and AUC:</strong> The ROC curve visualizes the model's ability to distinguish between the two classes. The <strong>Area Under the Curve (AUC)</strong> was **0.99**, which is extremely close to a perfect score of 1.0 and signifies an excellent, highly reliable classifier.</li>
-            </ul>
+            <p>The final model was evaluated on the unseen 20% test split. The system demonstrated excellent performance, validating the chosen methodology and model.</p>
+            <p>The key performance metrics are summarized below:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Accuracy</strong></td>
+                        <td><span class="highlight">97.4%</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Precision (Malignant)</strong></td>
+                        <td>98.6%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Recall (Malignant)</strong></td>
+                        <td>96.5%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>F1-Score (Malignant)</strong></td>
+                        <td>97.5%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ROC AUC Score</strong></td>
+                        <td>99.64%</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>The high scores, particularly the <strong>97.4% accuracy</strong> and the near-perfect <strong>99.64% ROC AUC</strong>, indicate that the model is highly effective at distinguishing between benign and malignant tumors with a very low error rate.</p>
         </section>
         <hr>
         <section id="visualizations" class="fade-in-up">
             <h2>7. Visualizations</h2>
-            <p>Numbers and metrics are important, but visuals often tell a clearer story.</p>
-            <h3>7.1. Training Loss Curve</h3>
-            <p>This plot shows the model's learning process over the 500 epochs. We can see a steep drop in the loss at the beginning, which then flattens out. This is the ideal shape, showing that the model learned quickly at first and then fine-tuned its knowledge.</p>
-            <div class="img-container">
-                <img src="1.jpg" alt="Training Loss Curve">
-            </div>
-            <p><em>Figure 1: The loss value steadily decreases over 500 epochs, indicating successful training.</em></p>
-            <h3>7.2. ROC Curve</h3>
-            <p>The ROC curve is a powerful visualization of classifier performance. Our curve hugs the top-left corner, which is exactly what we want to see. The Area Under the Curve (AUC) of 0.99 confirms the model is excellent at distinguishing malignant from benign cases.</p>
-            <div class="img-container">
-                <img src="2.jpg" alt="ROC Curve">
-            </div>
-            <p><em>Figure 2: The ROC Curve for the test set, with an outstanding AUC of 0.99.</em></p>
-            <h3>7.3. Confusion Matrix</h3>
-            <p>The confusion matrix gives us a direct look at the model's predictions versus the actual truth. It's a clear and honest report card of our model's performance on the test data.</p>
-            <div class="img-container">
-                <img src="3.jpg" alt="Confusion Matrix">
-            </div>
-            <p><em>Figure 3: The confusion matrix for the test set, showing the specific number of correct and incorrect predictions.</em></p>
+            <p>During the exploratory data analysis (EDA) phase in the <code>cancer_model_notebook.ipynb</code>, several key visualizations were created to understand the dataset:</p>
+            <ul>
+                <li><strong>Correlation Heatmap:</strong> A heatmap was generated to show the correlation between all 30 features. This helped identify multicollinearity and understand which features were strongly related to each other and to the target 'diagnosis'.</li>
+                <li><strong>Pairplot:</strong> A pairplot from the Seaborn library was used to visualize the relationships between a subset of key features (e.g., 'radius_mean', 'texture_mean', 'perimeter_mean'). This plot helped to visually confirm the separation between the 'benign' and 'malignant' classes based on these features.</li>
+            </ul>
+            <p>These visualizations were crucial for confirming the dataset's suitability for machine learning and guiding the feature selection and preprocessing steps.</p>
         </section>
         <hr>
         <section id="conclusion" class="fade-in-up">
             <h2>8. Conclusion</h2>
-            <p>This project was a complete journey, taking us from a raw dataset to a functional and highly accurate predictive model. We successfully built a neural network with PyTorch that can detect breast cancer with <span class="highlight">99.12% accuracy</span>, a result that we're proud of and that speaks to the power of deep learning in the medical field. More than just achieving a high score, this project is a proof-of-concept. It shows that AI can be trained to recognize complex patterns in medical data,
-            acting as a valuable "second opinion" for medical experts.</p>
-            <p>This system is not meant to replace doctors but to empower them. By helping to automate the initial analysis, it could one day help prioritize cases, reduce workload, and ultimately contribute to the goal we all share: catching cancer early and giving patients the best possible chance for a healthy future.</p>
+            <p>This project successfully demonstrates the application of machine learning in medical diagnostics, culminating in a highly accurate (<span class="highlight">97.4%</span>) breast cancer detection system. By integrating a tuned Random Forest model with a user-friendly Flask web application, we have created a practical tool that can effectively assist healthcare professionals.</p>
+            <p>The system's ability to handle both single and batch predictions, combined with a robust preprocessing pipeline using SMOTE, showcases a comprehensive approach to solving a real-world problem. This project serves as a strong proof-of-concept for the value of AI-powered diagnostic tools in improving patient outcomes through early and accurate detection.</p>
         </section>
         <hr>
         <section id="future-scope" class="fade-in-up">
             <h2>9. Future Scope</h2>
-            <p>This project is a strong foundation, but there's always room to build higher. Here are a few ideas we have for future work:</p>
+            <p>While the current system is highly effective, there are several avenues for future enhancement:</p>
             <ul>
-                <li><strong>Hyperparameter Tuning:</strong> We could use automated techniques like grid search to find the absolute best combination of settings (like learning rate or number of neurons) to squeeze out even more performance.</li>
-                <li><strong>Advanced Models:</strong> If we had access to the raw tumor images, we could use Convolutional Neural Networks (CNNs). CNNs are specialized for image analysis and would likely yield even better results.</li>
-                <li><strong>Deployment as a Web App:</strong> The most exciting next step would be to deploy this model as a simple web application. A doctor could enter the 30 feature values into a form and get an instant prediction, turning this project into a real-world tool.</li>
-                <li><strong>Explainable AI (XAI):</strong> We could use XAI techniques to understand *why* the model is making a certain prediction (e.g., "it's malignant because of high 'radius' and 'texture'"). This would help build even more trust with medical professionals.</li>
+                <li><strong>Integration with Medical Imaging:</strong> Extend the system to accept medical images (e.g., mammograms) and use Deep Learning (CNNs) for direct image-based classification.</li>
+                <li><strong>Multi-class Classification:</strong> Adapt the model to classify different sub-types of breast cancer, not just the binary benign/malignant.</li>
+                <li><strong>Real-time API Deployment:</strong> Deploy the model on a cloud platform (like AWS or GCP) for a scalable, real-time API that can be integrated into existing hospital information systems.</li>
+                <li><strong>Explainable AI (XAI):</strong> Implement XAI techniques (like LIME or SHAP) to provide explanations for each prediction, increasing trust and interpretability for medical staff.</li>
             </ul>
         </section>
         <hr>
-        <section id="references" class="fade-in-up">
-            <h2>10. References</h2>
-            <ol>
-                <li>Paszke, A., et al. (2019). PyTorch: An Imperative Style, High-Performance Deep Learning Library. In <em>Advances in Neural Information Processing Systems 32</em>.</li>
-                <li>Pedregosa, F., et al. (2011). Scikit-learn: Machine Learning in Python. <em>Journal of Machine Learning Research</em>, 12, 2825-2830.</li>
-                <li>Wolberg, W. H., Street, W. N., & Mangasarian, O. L. (1992). Breast Cancer Wisconsin (Diagnostic) Data Set. UCI Machine Learning Repository.</li>
-                <li>Goodfellow, I., Bengio, Y., & Courville, a. (2016). <em>Deep Learning</em>. MIT Press.</li>
-            </ol>
-        </section>
-        <hr>
         <section id="team" class="fade-in-up">
-            <h2>11. Our Team</h2>
+            <h2>10. Our Team</h2>
             
             <h3>Mentor</h3>
             <div class="team-grid mentor">
@@ -270,11 +248,26 @@
                 </div>
             </div>
         </section>
+        <hr>
+        <section id="references" class="fade-in-up">
+            <h2>11. References</h2>
+            <ol>
+                <li>Wisconsin Breast Cancer Dataset - UCI Machine Learning Repository.</li>
+                <li>Pedregosa, F., et al. (2011). Scikit-learn: Machine Learning in Python. <em>Journal of Machine Learning Research</em>.</li>
+                <li>Flask Web Development by Miguel Grinberg.</li>
+                <li>Chawla, N. V., et al. (2002). SMOTE: Synthetic Minority Over-sampling Technique. <em>Journal of Artificial Intelligence Research</em>.</li>
+                <li>Breiman, L. (2001). Random Forests. <em>Machine Learning</em>.</li>
+            </ol>
+        </section>
     </main>
 
     <button id="back-to-top" title="Go to top">&uarr;</button>
 
     <footer>
+        <div class="footer-links">
+            <a href="https://github.com/rajpratham1/Breast-Cancer-Dectaction" target="_blank">View Source Code</a>
+            <a href="https://cancerdetction.vercel.app/" target="_blank">View Live Site</a>
+        </div>
         <p>&copy; 2025 Breast Cancer Detection Project. All Rights Reserved. | <a href="LICENSE" target="_blank">MIT License</a></p>
     </footer>
     </div>
