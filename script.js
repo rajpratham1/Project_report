@@ -25,14 +25,38 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     
-    // --- Header Scroll Effect ---
+    // --- UPDATED: Header Scroll (Autohide) Effect ---
     const header = document.querySelector('header');
+    let lastScrollY = window.scrollY; // Store the last scroll position
+
     if (header) {
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
+            const currentScrollY = window.scrollY;
+
+            if (currentScrollY > lastScrollY) {
+                // Scrolling Down
+                if (currentScrollY > 150) { // Only hide after scrolling down 150px
+                    header.classList.add('header-hidden');
+                }
+            } else {
+                // Scrolling Up
+                header.classList.remove('header-hidden');
+            }
+            
+            // Keep the padding-shrink effect (this is separate)
+            if (currentScrollY > 50) {
                 header.classList.add('header-scrolled');
             } else {
                 header.classList.remove('header-scrolled');
+            }
+
+            lastScrollY = currentScrollY < 0 ? 0 : currentScrollY; // Update last scroll position
+        });
+
+        // Show header when mouse is near the top of the screen (for desktop)
+        document.addEventListener('mousemove', (e) => {
+            if (e.clientY < 60) { // If mouse is in the top 60px of the viewport
+                header.classList.remove('header-hidden');
             }
         });
     }
@@ -47,10 +71,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- Sidebar Toggle ---
     function toggleSidebar() {
         const isSidebarOpen = document.body.classList.toggle('sidebar-open');
-        // On mobile, prevent body scroll when nav is open
-        if (window.innerWidth <= 768) {
-            document.body.style.overflow = isSidebarOpen ? 'hidden' : '';
-        }
     }
 
     if (menuIcon) {
@@ -86,15 +106,17 @@ document.addEventListener('DOMContentLoaded', function() {
     window.onscroll = function() {
         // Show/hide button
         if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-            if (!backToTopButton || backToTopButton.style.display !== 'block') {
+            if (backToTopButton && backToTopButton.style.display !== 'block') {
                 backToTopButton.style.display = 'block';
                 backToTopButton.style.opacity = '1';
             }
         } else {
-            if (!backToTopButton || backToTopButton.style.display !== 'none') {
+            if (backToTopButton && backToTopButton.style.display !== 'none') {
                 backToTopButton.style.opacity = '0';
                 // Wait for transition to finish before hiding
-                setTimeout(() => { backToTopButton.style.display = 'none'; }, 300);
+                setTimeout(() => { 
+                    if (backToTopButton) { backToTopButton.style.display = 'none'; }
+                }, 300);
             }
         }
     };
@@ -102,6 +124,14 @@ document.addEventListener('DOMContentLoaded', function() {
     if (backToTopButton) {
         backToTopButton.addEventListener('click', function() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    // --- Download PDF Button ---
+    const downloadPdfButton = document.getElementById('download-pdf');
+    if (downloadPdfButton) {
+        downloadPdfButton.addEventListener('click', () => {
+            window.print();
         });
     }
 
@@ -114,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let current = '';
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
-            if (pageYOffset >= sectionTop - 60) { // 60 is header height
+            if (pageYOffset >= sectionTop - 60) { // 60 is an offset for the header
                 current = section.getAttribute('id');
             }
         });
